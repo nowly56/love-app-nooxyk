@@ -25,12 +25,12 @@ npm run build:web
 
 1. Создайте пустой репозиторий на GitHub и загрузите в него файлы проекта. Не добавляйте `node_modules`, `.expo`, `dist` и `.env`.
 2. В Railway создайте проект из этого GitHub-репозитория и дождитесь создания сервиса.
-3. В настройках сервиса Railway создайте публичный домен (HTTPS).
-4. В разделе **Variables** задайте `TELEGRAM_BOT_TOKEN` — токен, полученный у `@BotFather`. Можно также указать `TELEGRAM_WEB_APP_URL=https://ваш-домен.up.railway.app`; если переменную не задать, приложение использует `RAILWAY_PUBLIC_DOMAIN` от Railway.
+3. В **Settings → Networking → Public Networking** нажмите **Generate Domain**. Railway создаст HTTPS-адрес и передаст его сервису как `RAILWAY_PUBLIC_DOMAIN`; приложение подхватит ссылку само.
+4. В разделе **Variables** задайте только `TELEGRAM_BOT_TOKEN` — токен, полученный у `@BotFather`.
 5. Убедитесь, что в Railway запущен только один экземпляр сервиса: бот использует long polling Telegram.
 6. После успешного деплоя откройте чат с ботом и отправьте `/start`. Сервер настроит команду и кнопку меню, открывающую Mini App.
 
-Railway читает локальный `railway.json`: команда сборки — `npm run build:web`, запуска — `npm run start:railway`. Секреты задаются через **Variables**, а не в файлах репозитория. После смены адреса приложения обновите `TELEGRAM_WEB_APP_URL` и передеплойте сервис.
+Railway читает `railway.json`: команда сборки — `npm run build:web`, запуска — `npm run start:railway`. Секреты задаются через **Variables**, а не в файлах репозитория. Пока публичного домена нет, бот всё равно запускается, но кнопка Mini App появится только после генерации домена.
 
 ## Переменные окружения
 
@@ -38,9 +38,6 @@ Railway читает локальный `railway.json`: команда сбор�
 
 ```env
 TELEGRAM_BOT_TOKEN=токен_от_BotFather
-TELEGRAM_WEB_APP_URL=https://ваш-публичный-домен
-TELEGRAM_WEBHOOK_SECRET=
-TELEGRAM_USE_WEBHOOK=false
 ```
 
 Файл `.env` уже добавлен в `.gitignore`. Он предназначен только для локальной машины и не должен попадать в GitHub. Значения Railway задаются отдельно в интерфейсе **Variables**. Настоящий токен не включён в проект — его выдаёт BotFather для принадлежащего вам бота.

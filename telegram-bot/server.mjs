@@ -8,9 +8,11 @@ loadDotEnv();
 
 const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN?.trim();
 const railwayDomain = process.env.RAILWAY_PUBLIC_DOMAIN?.trim();
-const WEB_APP_URL =
-  process.env.TELEGRAM_WEB_APP_URL?.trim() ||
-  (railwayDomain ? `https://${railwayDomain}` : "");
+const WEB_APP_URL = railwayDomain
+  ? railwayDomain.startsWith("https://")
+    ? railwayDomain.replace(/\/$/, "")
+    : `https://${railwayDomain.replace(/\/$/, "")}`
+  : "";
 const PORT = Number(process.env.PORT || 8787);
 const WEBHOOK_SECRET =
   process.env.TELEGRAM_WEBHOOK_SECRET?.trim() ||
@@ -30,17 +32,13 @@ const CONTENT_TYPES = {
   ".webp": "image/webp",
 };
 
-if (!BOT_TOKEN || !WEB_APP_URL) {
-  console.error(
-    "Нужны TELEGRAM_BOT_TOKEN и публичный домен приложения. Заполните .env или Variables в Railway.",
-  );
+if (!BOT_TOKEN) {
+  console.error("Укажите TELEGRAM_BOT_TOKEN в .env или Variables в Railway.");
   process.exit(1);
 }
 
-try {
-  if (new URL(WEB_APP_URL).protocol !== "https:") throw new Error();
-} catch {
-  console.error("TELEGRAM_WEB_APP_URL должен быть публичным HTTPS-адресом.");
+if (WEB_APP_URL && new URL(WEB_APP_URL).protocol !== "https:") {
+  console.error("Railway public domain должен быть HTTPS-адресом.");
   process.exit(1);
 }
 
@@ -62,7 +60,7 @@ const telegramApi = async (method, payload = {}) => {
 const json = (response, statusCode, payload) => {
   response.writeHead(statusCode, {
     "Content-Type": "application/json; charset=utf-8",
-    "Access-Control-Allow-Origin": WEB_APP_URL,
+    "Access-Control-Allow-Origin": WEB_APP_URL || "*",
     "Access-Control-Allow-Headers": "Content-Type",
     "Access-Control-Allow-Methods": "POST, OPTIONS",
   });
@@ -211,8 +209,10 @@ const handleMessage = async (message) => {
 
   await telegramApi("sendMessage", {
     chat_id: message.chat.id,
-    text: greeting,
-    reply_markup: botKeyboard(inviteCode),
+    text: WEB_APP_URL
+      ? greeting
+      : `${greeting}\n\nMini App появится после включения публичного домена Railway.`,
+    ...(WEB_APP_URL ? { reply_markup: botKeyboard(inviteCode) } : {}),
   });
 };
 
@@ -308,14 +308,20 @@ server.listen(PORT, "0.0.0.0", async () => {
         { command: "help", description: "Помощь" },
       ],
     });
-    await telegramApi("setChatMenuButton", {
-      menu_button: {
-        type: "web_app",
-        text: "Love Archive",
-        web_app: { url: WEB_APP_URL },
-      },
-    });
-    console.log("Команды и кнопка меню Telegram настроены");
+    if (WEB_APP_URL) {
+      await telegramApi("setChatMenuButton", {
+        menu_button: {
+          type: "web_app",
+          text: "Love Archive",
+          web_app: { url: WEB_APP_URL },
+        },
+      });
+      console.log("Команды и кнопка меню Telegram настроены");
+    } else {
+      console.log(
+        "Команды бота настроены. Создайте публичный домен Railway, чтобы включить Mini App.",
+      );
+    }
   } catch (error) {
     console.error("Не удалось настроить меню Telegram:", error.message);
   }

@@ -8,8 +8,9 @@
 
 1. Скопируйте `.env.example` в `.env`.
 2. Создайте бота через `@BotFather` и вставьте токен в `TELEGRAM_BOT_TOKEN`.
-3. Укажите публичный HTTPS-адрес web-приложения в `TELEGRAM_WEB_APP_URL`.
-4. Запустите из корня проекта: `npm run bot:start`.
+3. Запустите из корня проекта: `npm run bot:start`.
+
+На Railway укажите только `TELEGRAM_BOT_TOKEN` в Variables. После создания публичного домена Railway приложение само возьмёт его из `RAILWAY_PUBLIC_DOMAIN` и установит кнопку Mini App. Пока домен не создан, бот запускается без кнопки и не падает.
 
 Для клиента Expo задайте:
 
