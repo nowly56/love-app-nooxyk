@@ -31,6 +31,38 @@ export function Icon({ name, size = 22 }: { name: IconName; size?: number }) {
   );
 }
 
+export function Avatar({
+  name,
+  photoUrl,
+  large = false,
+}: {
+  name: string;
+  photoUrl?: string;
+  large?: boolean;
+}) {
+  const [failedPhoto, setFailedPhoto] = useState("");
+  const showPhoto = Boolean(photoUrl && failedPhoto !== photoUrl);
+  return (
+    <span
+      className={`avatar${large ? " large" : ""}`}
+      title={name}
+      role="img"
+      aria-label={`${name} — фото профиля`}
+    >
+      <span aria-hidden="true">{name.slice(0, 1).toUpperCase()}</span>
+      {showPhoto && (
+        <img
+          src={photoUrl}
+          alt=""
+          loading="lazy"
+          referrerPolicy="no-referrer"
+          onError={() => setFailedPhoto(photoUrl ?? "")}
+        />
+      )}
+    </span>
+  );
+}
+
 export function Photo({
   photo,
   alt,

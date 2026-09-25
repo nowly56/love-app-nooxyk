@@ -19,18 +19,6 @@
   color: var(--ink);
   background: var(--bg);
 }
-:root[data-theme="dark"] {
-  color-scheme: dark;
-  --bg: #241f1d;
-  --surface: #302a26;
-  --ink: #f4e5d6;
-  --muted: #bcaa9c;
-  --line: #4e4138;
-  --accent: #e1baa6;
-  --soft: #3b3029;
-  --rose: #b97b68;
-  --shadow: 0 12px 38px #0002;
-}
 * {
   box-sizing: border-box;
 }
@@ -192,8 +180,10 @@ button:active:not(:disabled) {
   border-radius: 50%;
 }
 .avatar {
+  position: relative;
   display: grid;
   place-items: center;
+  overflow: hidden;
   flex-shrink: 0;
   width: 40px;
   height: 40px;
@@ -202,6 +192,14 @@ button:active:not(:disabled) {
   font:
     italic 20px Georgia,
     serif;
+}
+.avatar img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  object-fit: cover;
 }
 .avatar.large {
   width: 68px;

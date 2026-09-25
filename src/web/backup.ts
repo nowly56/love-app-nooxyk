@@ -1,4 +1,8 @@
-import { defaultPreferences, type Moment, type Preferences } from "./models.ts";
+import {
+  normalizePreferences,
+  type Moment,
+  type Preferences,
+} from "./models.ts";
 import { validDate } from "./dates.ts";
 
 export type ArchiveBackup = { preferences: Preferences; moments: Moment[] };
@@ -34,7 +38,6 @@ export function parseBackup(input: unknown, today: string): ArchiveBackup {
   if (
     typeof source.name !== "string" ||
     source.name.length > 40 ||
-    !["auto", "light", "dark"].includes(source.theme ?? "") ||
     typeof source.haptics !== "boolean"
   ) {
     throw new Error("Не удалось прочитать настройки профиля из копии.");
@@ -123,7 +126,7 @@ export function parseBackup(input: unknown, today: string): ArchiveBackup {
   });
 
   return {
-    preferences: { ...defaultPreferences, ...source, name: source.name.trim() },
+    preferences: normalizePreferences({ ...source, name: source.name.trim() }),
     moments,
   };
 }

@@ -1,5 +1,10 @@
 import { todayLocal, validDate } from "./dates.ts";
-import { defaultPreferences, type Moment, type Preferences } from "./models.ts";
+import {
+  defaultPreferences,
+  normalizePreferences,
+  type Moment,
+  type Preferences,
+} from "./models.ts";
 import type { ArchiveRepository } from "./repository";
 
 export function createLocalArchive(scope: string): ArchiveRepository {
@@ -43,7 +48,7 @@ export function createLocalArchive(scope: string): ArchiveRepository {
         "readonly",
         (s) => s.get(scope),
       );
-      if (saved) return { ...defaultPreferences, ...saved };
+      if (saved) return normalizePreferences(saved);
 
       // Migrate the date saved by the previous Expo web build, when it shares this origin.
       if (scope === "browser" && typeof localStorage !== "undefined") {

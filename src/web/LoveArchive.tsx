@@ -10,7 +10,7 @@ import { defaultPreferences, type Moment, type Preferences } from "./models";
 import { createArchiveRepository, type ArchiveRepository } from "./repository";
 import { daysTogether, displayDate, todayLocal, validDate } from "./dates";
 import { readBackup } from "./backup";
-import { Icon, Photo, Sheet } from "./components";
+import { Avatar, Icon, Photo, Sheet } from "./components";
 import { useTelegramEnvironment } from "./useTelegramEnvironment";
 import "./styles.css";
 
@@ -18,7 +18,7 @@ type Tab = "home" | "moments" | "settings";
 type Panel = "date" | "partner" | "help" | "editor" | null;
 
 export default function LoveArchive() {
-  const { telegram, telegramLoading, scheme } = useTelegramEnvironment();
+  const { telegram, telegramLoading } = useTelegramEnvironment();
   const [repository, setRepository] = useState<ArchiveRepository | null>(null);
   const [preferences, setPreferences] =
     useState<Preferences>(defaultPreferences);
@@ -88,16 +88,12 @@ export default function LoveArchive() {
       cancelled = true;
     };
   }, [telegram, telegramLoading]);
-  const dark =
-    (preferences.theme === "auto" ? scheme : preferences.theme) === "dark";
   useEffect(() => {
-    document.documentElement.dataset.theme = dark ? "dark" : "light";
     if (telegram?.isVersionAtLeast("6.1")) {
-      telegram.setBackgroundColor(dark ? "#241f1d" : "#f7f2eb");
-      if (telegram.isVersionAtLeast("6.9"))
-        telegram.setHeaderColor(dark ? "#241f1d" : "#f7f2eb");
+      telegram.setBackgroundColor("#f7f2eb");
+      if (telegram.isVersionAtLeast("6.9")) telegram.setHeaderColor("#f7f2eb");
     }
-  }, [dark, telegram]);
+  }, [telegram]);
   useEffect(() => {
     const timer = setInterval(() => setToday(todayLocal()), 30000);
     return () => clearInterval(timer);
@@ -315,6 +311,7 @@ export default function LoveArchive() {
   }, [filtered]);
   const name =
     preferences.name || telegram?.initDataUnsafe.user?.first_name || "Вы";
+  const profilePhotoUrl = telegram?.initDataUnsafe.user?.photo_url;
   const days = preferences.startDate
     ? daysTogether(preferences.startDate, today)
     : 0;
@@ -353,9 +350,7 @@ export default function LoveArchive() {
             love archive<small>МАЛЕНЬКАЯ ИСТОРИЯ БОЛЬШОЙ ЛЮБВИ</small>
           </span>
         </a>
-        <span className="avatar" title={name}>
-          {name.slice(0, 1).toUpperCase()}
-        </span>
+        <Avatar name={name} photoUrl={profilePhotoUrl} />
       </header>
       {!panel && error && (
         <div className="error-banner" role="alert">
@@ -636,9 +631,7 @@ export default function LoveArchive() {
                   </div>
                 </div>
                 <div className="profile-card card">
-                  <span className="avatar large">
-                    {name.slice(0, 1).toUpperCase()}
-                  </span>
+                  <Avatar name={name} photoUrl={profilePhotoUrl} large />
                   <div>
                     <h2>{name}</h2>
                     <p>{telegram ? "Профиль Telegram" : "Локальный профиль"}</p>
@@ -701,22 +694,6 @@ export default function LoveArchive() {
                 </div>
                 <div className="settings-group">
                   <span className="eyebrow">ПРИЛОЖЕНИЕ</span>
-                  <label className="setting-row" htmlFor="theme">
-                    <span>Тема оформления</span>
-                    <select
-                      id="theme"
-                      value={preferences.theme}
-                      disabled={busy}
-                      onChange={(e) => {
-                        const theme = e.target.value as Preferences["theme"];
-                        void perform(() => savePreferences({ theme }));
-                      }}
-                    >
-                      <option value="auto">Как в Telegram</option>
-                      <option value="light">Кофейная</option>
-                      <option value="dark">Вечерняя</option>
-                    </select>
-                  </label>
                   <label className="setting-row" htmlFor="haptics">
                     <span>
                       Тактильный отклик

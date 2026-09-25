@@ -1,7 +1,12 @@
 export type TelegramApp = {
   initData: string;
   initDataUnsafe: {
-    user?: { id: number; first_name: string; last_name?: string };
+    user?: {
+      id: number;
+      first_name: string;
+      last_name?: string;
+      photo_url?: string;
+    };
     start_param?: string;
   };
   colorScheme: "light" | "dark";
