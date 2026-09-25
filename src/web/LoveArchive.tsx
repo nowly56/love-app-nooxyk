@@ -90,8 +90,8 @@ export default function LoveArchive() {
   }, [telegram, telegramLoading]);
   useEffect(() => {
     if (telegram?.isVersionAtLeast("6.1")) {
-      telegram.setBackgroundColor("#f7f2eb");
-      if (telegram.isVersionAtLeast("6.9")) telegram.setHeaderColor("#f7f2eb");
+      telegram.setBackgroundColor("#fbf9f7");
+      if (telegram.isVersionAtLeast("6.9")) telegram.setHeaderColor("#fbf9f7");
     }
   }, [telegram]);
   useEffect(() => {
@@ -186,6 +186,7 @@ export default function LoveArchive() {
   const changeTab = (value: Tab) => {
     setTab(value);
     setError("");
+    window.scrollTo(0, 0);
     if (preferences.haptics && telegram?.isVersionAtLeast("6.1"))
       telegram.HapticFeedback?.selectionChanged();
   };
@@ -345,12 +346,21 @@ export default function LoveArchive() {
             changeTab("home");
           }}
         >
-          <span className="brand-mark">♡</span>
           <span>
-            love archive<small>МАЛЕНЬКАЯ ИСТОРИЯ БОЛЬШОЙ ЛЮБВИ</small>
+            <small>LOVE APP</small>
+            <span className="brand-title">Personal Space</span>
           </span>
         </a>
-        <Avatar name={name} photoUrl={profilePhotoUrl} />
+        <div className="header-actions">
+          <div className="partner-status">
+            <Avatar name={name} photoUrl={profilePhotoUrl} />
+            <span className="status-dot" />
+            <span>ЖДЕМ ПАРТНЕРА</span>
+          </div>
+          <button className="invite-button" onClick={() => setPanel("partner")}>
+            ПРИГЛАСИТЬ <span aria-hidden="true">›</span>
+          </button>
+        </div>
       </header>
       {!panel && error && (
         <div className="error-banner" role="alert">
@@ -363,8 +373,8 @@ export default function LoveArchive() {
       <main className="main-content">
         {!preferences.startDate ? (
           <section className="onboarding">
-            <span className="eyebrow">ГЛАВА 01 / НАЧАЛО</span>
-            <div className="onboarding-heart">♡</div>
+            <span className="eyebrow">НАЧАЛО ВАШЕЙ ИСТОРИИ</span>
+            <div className="onboarding-number">01</div>
             <h1>
               У каждой любви
               <br />
@@ -425,29 +435,26 @@ export default function LoveArchive() {
           <>
             {tab === "home" && (
               <section className="home-screen">
-                <div className="section-top">
-                  <span className="eyebrow">ВАША ОБЩАЯ ИСТОРИЯ</span>
-                  <button className="chip" onClick={() => setPanel("partner")}>
-                    <span className="status-dot" />
-                    Пригласить партнёра <span aria-hidden="true">↗</span>
-                  </button>
-                </div>
                 <div className="day-counter">
-                  <span className="tiny-heart">♡</span>
-                  <h1>{days.toLocaleString("ru-RU")}</h1>
+                  <h1
+                    className={
+                      days >= 1000
+                        ? "count-many"
+                        : days >= 100
+                          ? "count-three"
+                          : ""
+                    }
+                  >
+                    {days.toLocaleString("ru-RU")}
+                  </h1>
                   <span className="eyebrow">ДНЕЙ ЛЮБВИ</span>
-                  <p>С {displayDate(preferences.startDate)}</p>
                 </div>
                 <article className="milestone card">
                   <div className="card-top">
-                    <span className="eyebrow">
-                      СЛЕДУЮЩАЯ МАЛЕНЬКАЯ ВЕЧНОСТЬ
-                    </span>
+                    <span className="eyebrow">СЛЕДУЮЩИЙ ЮБИЛЕЙ</span>
                     <Icon name="star" />
                   </div>
-                  <h2>
-                    {milestone} <em>дней вместе</em>
-                  </h2>
+                  <h2>{milestone} Дней</h2>
                   <div
                     className="progress"
                     role="progressbar"
@@ -459,69 +466,71 @@ export default function LoveArchive() {
                     <span style={{ width: `${progress}%` }} />
                   </div>
                   <div className="card-bottom">
-                    <span>Ещё {milestone - days} дн. до новой главы</span>
+                    <span>{milestone - days} ДНЕЙ ОСТАЛОСЬ</span>
                     <span>{progress}%</span>
                   </div>
                 </article>
-                <div className="section-title">
-                  <h2>То, что хочется помнить</h2>
-                  <button
-                    className="text-button"
-                    onClick={() => changeTab("moments")}
-                  >
-                    Все моменты <span aria-hidden="true">↗</span>
-                  </button>
-                </div>
-                {moments.length ? (
-                  <div className="recent-grid">
-                    {moments.slice(0, 2).map((m) => (
-                      <button
-                        className="moment-card"
-                        key={m.id}
-                        onClick={() => {
-                          setDraft(m);
-                          setPanel("editor");
-                        }}
-                      >
-                        <Photo
-                          photo={m.photo}
-                          alt={m.caption || "Ваш момент"}
-                        />
-                        <span className="moment-caption">
-                          {m.caption || displayDate(m.date)}
-                        </span>
-                      </button>
-                    ))}
+                <div className="home-memory-section">
+                  <div className="section-title">
+                    <h2>То, что хочется помнить</h2>
+                    <button
+                      className="text-button"
+                      onClick={() => changeTab("moments")}
+                    >
+                      Все моменты <span aria-hidden="true">↗</span>
+                    </button>
                   </div>
-                ) : (
-                  <button
-                    className="empty-card"
-                    onClick={() => fileInput.current?.click()}
-                    disabled={busy}
-                  >
-                    <span className="empty-icon">
-                      <Icon name="photos" size={28} />
-                    </span>
-                    <strong>Ваш первый момент</strong>
-                    <span>
-                      Фото, улыбка, обычный вторник.
-                      <br />
-                      Всё, что делает вас ближе.
-                    </span>
-                    <span className="text-button">Добавить фотографию +</span>
-                  </button>
-                )}
-                <p className="local-note">
-                  Только на этом устройстве · {moments.length} моментов
-                </p>
+                  {moments.length ? (
+                    <div className="recent-grid">
+                      {moments.slice(0, 2).map((m) => (
+                        <button
+                          className="moment-card"
+                          key={m.id}
+                          onClick={() => {
+                            setDraft(m);
+                            setPanel("editor");
+                          }}
+                        >
+                          <Photo
+                            photo={m.photo}
+                            alt={m.caption || "Ваш момент"}
+                          />
+                          <span className="moment-caption">
+                            {m.caption || displayDate(m.date)}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+                  ) : (
+                    <button
+                      className="empty-card"
+                      onClick={() => fileInput.current?.click()}
+                      disabled={busy}
+                    >
+                      <span className="empty-icon">
+                        <Icon name="photos" size={28} />
+                      </span>
+                      <strong>Ваш первый момент</strong>
+                      <span>
+                        Фото, улыбка, обычный вторник.
+                        <br />
+                        Всё, что делает вас ближе.
+                      </span>
+                      <span className="text-button">Добавить фотографию +</span>
+                    </button>
+                  )}
+                  <p className="local-note">
+                    Только на этом устройстве · {moments.length} моментов
+                  </p>
+                </div>
               </section>
             )}
             {tab === "moments" && (
               <section>
                 <div className="page-heading">
                   <div>
-                    <span className="eyebrow">СОБИРАЕМ САМОЕ ДОРОГОЕ</span>
-                    <h1>Моменты</h1>
+                    <span className="eyebrow">НАШИ ТЁПЛЫЕ МОМЕНТЫ</span>
+                    <h1>Свидания</h1>
                   </div>
                   <button
                     className="round-button"
@@ -765,8 +774,8 @@ export default function LoveArchive() {
           <div className="tabs">
             {(
               [
-                { id: "home", title: "Главная", icon: "heart" },
-                { id: "moments", title: "Моменты", icon: "photos" },
+                { id: "home", title: "История", icon: "book" },
+                { id: "moments", title: "Свидания", icon: "heart" },
                 { id: "settings", title: "Настройки", icon: "settings" },
               ] as const
             ).map((item) => (

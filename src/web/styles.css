@@ -1,14 +1,14 @@
 :root {
   color-scheme: light;
-  --bg: #f7f2eb;
-  --surface: #fffcf7;
-  --ink: #3e302b;
-  --muted: #8e7d72;
-  --line: #ded3c6;
-  --accent: #755344;
-  --soft: #eee3d6;
-  --rose: #e7b8a6;
-  --shadow: 0 12px 38px #54301d0b;
+  --bg: #fbf9f7;
+  --surface: #fffaf6;
+  --ink: #303031;
+  --muted: #817b78;
+  --line: #ffffffa8;
+  --accent: #303031;
+  --soft: #f4e7dd;
+  --rose: #f8dfe1;
+  --shadow: 0 12px 34px #6a51400c;
   --app-height: 100dvh;
   font-family:
     Inter,
@@ -17,13 +17,15 @@
     "Segoe UI",
     sans-serif;
   color: var(--ink);
-  background: var(--bg);
+  background: #ead9cc;
 }
 * {
   box-sizing: border-box;
 }
 body {
   margin: 0;
+  background: linear-gradient(180deg, #fbf9f7 0%, #f6e9de 46%, #e7d6ca 100%);
+  background-attachment: fixed;
 }
 button,
 input,
@@ -119,7 +121,7 @@ p {
   line-height: 1.65;
 }
 em {
-  font-family: Georgia, serif;
+  font-family: inherit;
   font-weight: 400;
 }
 small {
@@ -137,36 +139,87 @@ button:active:not(:disabled) {
   transform: scale(0.98);
 }
 .archive-app {
-  max-width: 760px;
+  max-width: 680px;
   margin: auto;
   min-height: var(--app-height);
   padding: calc(
-      22px + max(env(safe-area-inset-top, 0px), var(--tg-inset-top, 0px))
+      26px + max(env(safe-area-inset-top, 0px), var(--tg-inset-top, 0px))
     )
-    max(24px, var(--tg-inset-right, 0px)) 130px
-    max(24px, var(--tg-inset-left, 0px));
+    max(22px, var(--tg-inset-right, 0px)) 130px
+    max(22px, var(--tg-inset-left, 0px));
 }
 .app-header {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: space-between;
-  padding-bottom: 28px;
-  border-bottom: 1px solid var(--line);
-  gap: 12px;
+  gap: 10px;
 }
 .brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-family: Georgia, serif;
-  font-size: 24px;
-  letter-spacing: -0.7px;
+  display: block;
+  min-width: 0;
+  padding-top: 2px;
+  line-height: 1.15;
 }
 .brand small {
-  font: 7px/1.4 sans-serif;
-  letter-spacing: 1.4px;
-  margin-top: 6px;
-  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.3;
+  font-weight: 700;
+  letter-spacing: 2.6px;
+  color: #686160;
+  white-space: nowrap;
+}
+.brand-title {
+  display: block;
+  font-size: clamp(24px, 5vw, 32px);
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -1.3px;
+  white-space: nowrap;
+  margin-top: 4px;
+}
+.header-actions {
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  gap: 7px;
+}
+.partner-status,
+.invite-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 28px;
+  border-radius: 100px;
+  background: #ffffffbf;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.1px;
+  white-space: nowrap;
+  box-shadow: 0 2px 15px #ffffff55;
+}
+.partner-status {
+  gap: 6px;
+  padding: 3px 10px 3px 4px;
+}
+.partner-status .avatar {
+  width: 23px;
+  height: 23px;
+  font-size: 11px;
+  border: 1px solid #ffffffcf;
+}
+.partner-status .status-dot {
+  width: 7px;
+  height: 7px;
+  background: #ffd831;
+}
+.invite-button {
+  padding: 4px 13px;
+  gap: 9px;
+}
+.invite-button span {
+  font-size: 19px;
+  font-weight: 400;
+  line-height: 0.7;
 }
 .brand-mark {
   display: grid;
@@ -188,10 +241,12 @@ button:active:not(:disabled) {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: var(--soft);
+  background: #ebd5c7;
   font:
-    italic 20px Georgia,
-    serif;
+    italic 20px -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
 }
 .avatar img {
   position: absolute;
@@ -207,12 +262,12 @@ button:active:not(:disabled) {
   font-size: 30px;
 }
 .main-content {
-  padding-top: 28px;
+  padding-top: 35px;
 }
 .eyebrow {
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 1.8px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2.1px;
   line-height: 1.6;
   color: var(--muted);
 }
@@ -223,8 +278,8 @@ button:active:not(:disabled) {
   gap: 12px;
 }
 .chip {
-  background: var(--surface);
-  border: 1px solid var(--line);
+  background: #ffffffad;
+  border: 1px solid #ffffffb0;
   border-radius: 30px;
   padding: 9px 13px;
   font-size: 11px;
@@ -241,11 +296,11 @@ button:active:not(:disabled) {
   width: 5px;
   height: 5px;
   border-radius: 50%;
-  background: #bd9b60;
+  background: #ffd831;
 }
 .day-counter {
   text-align: center;
-  padding: 27px 0 39px;
+  padding: clamp(45px, 8vh, 94px) 0 clamp(43px, 7vh, 74px);
 }
 .tiny-heart {
   font:
@@ -254,16 +309,30 @@ button:active:not(:disabled) {
   color: var(--accent);
 }
 .day-counter h1 {
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(78px, 22vw, 144px);
-  font-weight: 400;
-  line-height: 1.08;
-  letter-spacing: -6px;
+  font-family:
+    "Helvetica Neue",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  font-size: clamp(124px, 34vw, 184px);
+  font-weight: 100;
+  line-height: 0.98;
+  letter-spacing: -0.11em;
   font-variant-numeric: tabular-nums;
+  padding-right: 0.1em;
+  margin-bottom: 21px;
+}
+.day-counter h1.count-three {
+  font-size: clamp(100px, 27vw, 155px);
+}
+.day-counter h1.count-many {
+  font-size: clamp(67px, 19vw, 115px);
 }
 .day-counter .eyebrow {
-  letter-spacing: 4px;
-  font-size: 10px;
+  letter-spacing: 5.5px;
+  font-size: 12px;
+  font-weight: 600;
 }
 .day-counter p {
   font-size: 12px;
@@ -271,14 +340,16 @@ button:active:not(:disabled) {
   margin-top: 15px;
 }
 .card {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 23px;
+  background: #ffecde8a;
+  border: 1px solid #ffffffc9;
+  border-radius: 30px;
   box-shadow: var(--shadow);
 }
 .milestone {
-  padding: 23px;
-  background: linear-gradient(125deg, var(--surface), var(--soft));
+  padding: 24px;
+  background: #ffecde80;
+  border-radius: 32px;
+  min-height: 156px;
 }
 .card-top,
 .card-bottom {
@@ -288,47 +359,54 @@ button:active:not(:disabled) {
   gap: 12px;
 }
 .card-top svg {
-  color: var(--accent);
+  color: #a89a91;
 }
 .card-top .eyebrow {
-  font-size: 8px;
-  letter-spacing: 1.4px;
+  font-size: 10px;
+  letter-spacing: 2px;
 }
 .milestone h2 {
-  font-size: 28px;
-  margin: 16px 0 23px;
-}
-.milestone h2 em {
-  font-size: 24px;
+  font-size: 23px;
+  font-weight: 600;
+  margin: 14px 0 19px;
 }
 .progress {
-  height: 5px;
-  border-radius: 5px;
-  background: var(--line);
+  height: 8px;
+  border-radius: 8px;
+  background: #d9c8b9;
   overflow: hidden;
 }
 .progress span {
   display: block;
   height: 100%;
-  border-radius: 5px;
-  background: linear-gradient(90deg, var(--accent), var(--rose));
+  border-radius: 8px;
+  background: linear-gradient(90deg, #ffe9ea, #f4e6ed);
   transition: width 0.3s;
 }
 .card-bottom {
-  font-size: 10px;
+  font-size: 11px;
   color: var(--muted);
-  margin-top: 12px;
+  margin-top: 15px;
+  letter-spacing: 0.3px;
+}
+.card-bottom span:last-child {
+  font-weight: 700;
+  color: #655b56;
+  font-size: 12px;
+}
+.home-memory-section {
+  margin-top: max(280px, 33vh);
 }
 .section-title {
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 10px;
-  margin: 25px 0 12px;
+  margin: 25px 0 16px;
 }
 .section-title h2 {
-  font-family: Georgia, serif;
-  font-size: 19px;
+  font-size: 21px;
+  font-weight: 500;
 }
 .text-button {
   background: transparent;
@@ -342,9 +420,9 @@ button:active:not(:disabled) {
 }
 .empty-card {
   width: 100%;
-  border: 1px dashed var(--line);
-  background: transparent;
-  border-radius: 23px;
+  border: 1px solid #ffffffc9;
+  background: #ffecde70;
+  border-radius: 30px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -354,9 +432,8 @@ button:active:not(:disabled) {
 }
 .empty-card strong,
 .empty-card h2 {
-  font-family: Georgia, serif;
   font-size: 21px;
-  font-weight: 400;
+  font-weight: 500;
 }
 .empty-card > span:not(.empty-icon):not(.text-button),
 .empty-card p {
@@ -383,63 +460,64 @@ button:active:not(:disabled) {
 .bottom-nav {
   position: fixed;
   bottom: max(
-    16px,
-    env(safe-area-inset-bottom, 0px),
-    var(--tg-inset-bottom, 0px)
+    18px,
+    calc(env(safe-area-inset-bottom, 0px) + 12px),
+    calc(var(--tg-inset-bottom, 0px) + 12px)
   );
   left: 50%;
   transform: translateX(-50%);
-  width: calc(100% - 32px);
-  max-width: 560px;
+  width: calc(100% - 30px);
+  max-width: 630px;
   display: flex;
-  gap: 10px;
+  gap: 12px;
   z-index: 5;
 }
 .tabs {
   display: flex;
   flex: 1;
-  border-radius: 40px;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  box-shadow: 0 8px 25px #31201518;
-  padding: 7px;
+  min-width: 0;
+  border-radius: 100px;
+  background: #f7e8dcce;
+  border: 1px solid #ffffffcc;
+  padding: 4px;
+  backdrop-filter: blur(18px);
 }
 .tabs button {
   flex: 1;
-  border-radius: 30px;
+  min-width: 0;
+  border-radius: 100px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  justify-content: center;
+  gap: 2px;
   background: transparent;
   color: var(--muted);
-  padding: 6px 3px;
+  padding: 11px 2px 9px;
 }
 .tabs button span {
-  font-size: 9px;
+  font-size: 10px;
+  font-weight: 600;
+  white-space: nowrap;
 }
 .tabs .selected {
-  color: var(--accent);
-  background: var(--soft);
+  color: var(--ink);
+  background: #fff;
+  box-shadow: 0 3px 12px #7c605116;
 }
 .tabs i {
-  width: 3px;
-  height: 3px;
-  border-radius: 50%;
-  background: transparent;
-}
-.tabs .selected i {
-  background: var(--accent);
+  display: none;
 }
 .camera-button {
   border-radius: 50%;
-  width: 76px;
-  background: var(--accent);
-  color: var(--bg);
-  border: 1px solid var(--line);
+  width: 69px;
+  min-width: 69px;
+  background: #f7e8dcce;
+  color: var(--ink);
+  border: 1px solid #ffffffcc;
   display: grid;
   place-items: center;
-  box-shadow: var(--shadow);
+  backdrop-filter: blur(18px);
 }
 .page-heading {
   display: flex;
@@ -448,17 +526,18 @@ button:active:not(:disabled) {
   margin: 4px 0 27px;
 }
 .page-heading h1 {
-  font:
-    38px Georgia,
-    serif;
+  font-size: 38px;
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: -1.5px;
   margin-top: 9px;
 }
 .round-button {
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  background: var(--accent);
-  color: var(--bg);
+  background: #ffffffc4;
+  color: var(--ink);
   display: grid;
   place-items: center;
 }
@@ -495,10 +574,10 @@ button:active:not(:disabled) {
   gap: 14px;
 }
 .moment-card {
-  border: 1px solid var(--line);
+  border: 1px solid #ffffffc9;
   padding: 7px;
-  background: var(--surface);
-  border-radius: 16px;
+  background: #fff7f0bd;
+  border-radius: 22px;
   text-align: left;
   overflow: hidden;
   min-width: 0;
@@ -507,7 +586,7 @@ button:active:not(:disabled) {
   width: 100%;
   aspect-ratio: 4/5;
   object-fit: cover;
-  border-radius: 10px;
+  border-radius: 16px;
   display: block;
 }
 .moment-caption {
@@ -515,9 +594,7 @@ button:active:not(:disabled) {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  font:
-    15px Georgia,
-    serif;
+  font-size: 15px;
   padding: 13px 5px 8px;
 }
 .moment-caption small {
@@ -533,7 +610,6 @@ button:active:not(:disabled) {
   margin-bottom: 25px;
 }
 .profile-card h2 {
-  font-family: Georgia, serif;
   font-size: 25px;
   overflow-wrap: anywhere;
 }
@@ -557,9 +633,9 @@ button:active:not(:disabled) {
   justify-content: space-between;
   gap: 16px;
   text-align: left;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 15px;
+  background: #fff7f0b5;
+  border: 1px solid #ffffffc9;
+  border-radius: 20px;
   padding: 17px 16px;
   margin: 8px 0;
   width: 100%;
@@ -580,9 +656,9 @@ button:active:not(:disabled) {
   background: var(--soft);
 }
 .name-form {
-  background: var(--surface);
-  border: 1px solid var(--line);
-  border-radius: 15px;
+  background: #fff7f0b5;
+  border: 1px solid #ffffffc9;
+  border-radius: 20px;
   padding: 3px 16px 16px;
 }
 .name-form > div {
@@ -604,7 +680,7 @@ button:active:not(:disabled) {
   align-items: center;
   justify-content: center;
   gap: 13px;
-  border-radius: 16px;
+  border-radius: 100px;
   min-height: 52px;
   padding: 15px 22px;
   font-size: 14px;
@@ -615,9 +691,9 @@ button:active:not(:disabled) {
   color: var(--bg);
 }
 .secondary {
-  background: var(--soft);
+  background: #ffffffb8;
   color: var(--ink);
-  border: 1px solid var(--line);
+  border: 1px solid #ffffffc9;
 }
 .full {
   width: 100%;
@@ -634,16 +710,24 @@ button:active:not(:disabled) {
   text-align: center;
   padding-top: 10px;
 }
-.onboarding-heart {
-  font:
-    85px Georgia,
-    serif;
-  color: var(--accent);
-  margin: 20px 0;
+.onboarding-number {
+  font-family:
+    "Helvetica Neue",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+  font-size: clamp(110px, 32vw, 170px);
+  font-weight: 100;
+  letter-spacing: -0.1em;
+  line-height: 1;
+  margin: 35px 0 25px;
+  padding-right: 0.1em;
 }
 .onboarding h1 {
-  font-family: Georgia, serif;
   font-size: clamp(32px, 9vw, 45px);
+  font-weight: 400;
+  font-style: italic;
   line-height: 1.2;
   letter-spacing: -1px;
 }
@@ -656,6 +740,10 @@ button:active:not(:disabled) {
 .onboarding form {
   text-align: left;
   margin-top: 29px;
+  padding: 22px;
+  background: #ffecde80;
+  border: 1px solid #ffffffc9;
+  border-radius: 30px;
 }
 .onboarding > .text-button {
   margin-top: 12px;
@@ -667,9 +755,9 @@ button:active:not(:disabled) {
 }
 .sheet {
   color: var(--ink);
-  background: var(--bg);
-  border: 1px solid var(--line);
-  border-radius: 28px 28px 0 0;
+  background: linear-gradient(180deg, #fbf9f7, #f3e4d9);
+  border: 1px solid #ffffffd9;
+  border-radius: 30px 30px 0 0;
   width: 100%;
   max-width: 560px;
   max-height: calc(var(--app-height) - 24px - var(--tg-inset-top, 0px));
@@ -697,9 +785,8 @@ button:active:not(:disabled) {
   margin-bottom: 19px;
 }
 .sheet-heading h2 {
-  font:
-    23px Georgia,
-    serif;
+  font-size: 23px;
+  font-weight: 500;
 }
 .icon-button {
   background: var(--soft);
@@ -743,9 +830,8 @@ button:active:not(:disabled) {
   margin-left: -20px;
 }
 .partner-panel h3 {
-  font:
-    28px Georgia,
-    serif;
+  font-size: 28px;
+  font-weight: 500;
   margin-bottom: 13px;
 }
 .partner-panel p {
@@ -773,9 +859,8 @@ button:active:not(:disabled) {
   overflow-wrap: anywhere;
 }
 .help-copy h3 {
-  font:
-    21px Georgia,
-    serif;
+  font-size: 21px;
+  font-weight: 500;
   margin: 22px 0 9px;
 }
 .help-copy p {
@@ -850,9 +935,9 @@ button:active:not(:disabled) {
   text-align: center;
 }
 .boot h1 {
-  font:
-    36px Georgia,
-    serif;
+  font-size: 36px;
+  font-weight: 400;
+  font-style: italic;
 }
 .boot p {
   max-width: 400px;
@@ -868,7 +953,7 @@ button:active:not(:disabled) {
     padding-top: 32px;
   }
   .day-counter {
-    padding-top: 35px;
+    padding-top: 75px;
   }
   .moments-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -877,9 +962,6 @@ button:active:not(:disabled) {
     margin: auto;
     border-radius: 25px;
     max-height: 85dvh;
-  }
-  .brand small {
-    font-size: 8px;
   }
   .onboarding {
     padding-bottom: 40px;
@@ -893,11 +975,25 @@ button:active:not(:disabled) {
   .section-top {
     flex-wrap: wrap;
   }
-  .brand {
+  .brand-title {
     font-size: 21px;
   }
   .brand small {
-    letter-spacing: 0.7px;
+    font-size: 8px;
+    letter-spacing: 2px;
+  }
+  .partner-status,
+  .invite-button {
+    font-size: 8px;
+    letter-spacing: 0.5px;
+  }
+  .partner-status .avatar {
+    width: 20px;
+    height: 20px;
+  }
+  .partner-status {
+    gap: 4px;
+    padding-right: 7px;
   }
   .section-title h2 {
     font-size: 17px;
@@ -906,7 +1002,8 @@ button:active:not(:disabled) {
     flex-wrap: wrap;
   }
   .camera-button {
-    width: 65px;
+    width: 60px;
+    min-width: 60px;
   }
   .milestone {
     padding: 18px;

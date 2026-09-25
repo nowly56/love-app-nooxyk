@@ -26,7 +26,7 @@ test("archive persists blobs and edits, isolates profiles, and deletes only the 
     ...defaultPreferences,
     name: "Тест",
     startDate: "2024-02-29",
-    theme: "dark",
+    haptics: false,
   });
   const moment = {
     id: "same-id",
@@ -38,7 +38,7 @@ test("archive persists blobs and edits, isolates profiles, and deletes only the 
   await first.saveMoment(moment);
   await second.saveMoment({ ...moment, caption: "Другой профиль" });
   const reopened = createLocalArchive("test-first");
-  assert.equal((await reopened.preferences()).theme, "dark");
+  assert.equal((await reopened.preferences()).haptics, false);
   assert.equal((await second.preferences()).name, "");
   assert.equal(await (await reopened.moments())[0].photo.text(), "test-photo");
   await reopened.saveMoment({

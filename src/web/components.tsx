@@ -1,10 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 
 const iconPaths = {
+  book: "M12 6.5c-2.4-1.6-5-2-9-1.7v14c3.9-.4 6.7.2 9 1.8 2.3-1.6 5.1-2.2 9-1.8v-14c-4-.3-6.6.1-9 1.7Zm0 0v14",
   heart:
     "M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z",
   photos: "M4 3h16v18H4z M4 15l5-5 5 5 3-3 3 3 M15 7h.01",
-  settings: "M4 6h16 M4 12h16 M4 18h16 M8 3v6 M16 9v6 M10 15v6",
+  settings:
+    "M10 2h4l.6 2.3c.6.2 1.1.4 1.6.7l2.1-1.2 2.8 2.8-1.2 2.1c.3.5.5 1 .7 1.6L23 11v4l-2.4.6c-.2.6-.4 1.1-.7 1.6l1.2 2.1-2.8 2.8-2.1-1.2c-.5.3-1 .5-1.6.7L14 24h-4l-.6-2.4c-.6-.2-1.1-.4-1.6-.7l-2.1 1.2-2.8-2.8 1.2-2.1c-.3-.5-.5-1-.7-1.6L1 15v-4l2.4-.6c.2-.6.4-1.1.7-1.6L2.9 6.7l2.8-2.8 2.1 1.2c.5-.3 1-.5 1.6-.7L10 2Zm2 6a4 4 0 1 0 0 8 4 4 0 0 0 0-8Z",
   plus: "M12 5v14 M5 12h14",
   camera: "M3 7h4l2-3h6l2 3h4v14H3z M16 13a4 4 0 1 1-8 0 4 4 0 0 1 8 0",
   arrow: "M5 12h14 M13 6l6 6-6 6",
@@ -26,7 +28,24 @@ export function Icon({ name, size = 22 }: { name: IconName; size?: number }) {
       strokeLinejoin="round"
       aria-hidden="true"
     >
-      <path d={iconPaths[name]} />
+      {name === "camera" ? (
+        <>
+          <path
+            d="M5 7h2l2-3h6l2 3h2a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Z"
+            fill="currentColor"
+            stroke="none"
+          />
+          <circle
+            cx="12"
+            cy="13"
+            r="3.4"
+            fill="var(--camera-cutout, #f7e8dc)"
+            stroke="none"
+          />
+        </>
+      ) : (
+        <path d={iconPaths[name]} />
+      )}
     </svg>
   );
 }
